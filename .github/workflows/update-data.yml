@@ -21,7 +21,7 @@ jobs:
 #        run: npm install
 
       - name: Run fetch script
-        run: node fetch-and-update.js
+        run: node fetch-and-update.cjs
 
       - name: Commit and push if changed
         run: |
