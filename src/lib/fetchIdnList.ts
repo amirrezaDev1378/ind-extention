@@ -1,5 +1,6 @@
-import * as cheerio from 'cheerio';
-const baseUrl = "https://ind.nl/en/public-register-recognised-sponsors/public-register-regular-labour-and-highly-skilled-migrants";
+import axios from "axios";
+
+const baseUrl = "https://raw.githubusercontent.com/amirrezaDev1378/idn-extention/refs/heads/master/idnList.json";
 
 export const fetchIdnList = async () => {
 
@@ -9,19 +10,12 @@ export const fetchIdnList = async () => {
     }
 
 
-    const response = await fetch(baseUrl);
-    const html = await response.text();
-    const $ = cheerio.load(html);
-    const idnList = $('.responsive-table > div > table > tbody > tr');
-    const idnListArray:{idn: string, name: string}[] = [];
-    idnList.each((index, element) => {
-        const idn = $(element).find('th').text().trim();
-        const name = $(element).find('td').text().trim();
-        idnListArray.push({idn, name});
-    });
+    const response = await axios.get(baseUrl);
+    const idnList = await response.data
+    
     //  store in browser storage
-    await storage.setItem('local:idnList', idnListArray);
-    console.log(idnListArray);
+    await storage.setItem('local:idnList', idnList);
+    console.log(idnList);
 
-    return idnListArray;
+    return idnList;
 }

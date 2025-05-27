@@ -1,5 +1,5 @@
 import {defineConfig} from "wxt";
-
+import tailwindcss from "@tailwindcss/vite";
 // See https://wxt.dev/api/config.html
 export default defineConfig({
     srcDir: "src",
@@ -18,5 +18,10 @@ export default defineConfig({
         content_security_policy: {
             extension_pages: "script-src 'self'; object-src 'self';"
         }
+    },
+    vite: (env) => {
+        return {
+            plugins: [tailwindcss()]
+        };
     }
 });
