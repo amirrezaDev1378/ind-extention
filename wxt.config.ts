@@ -1,5 +1,6 @@
 import { defineConfig } from "wxt";
 import tailwindcss from "@tailwindcss/vite";
+// import tailwindcss from "@tailwindcss/vite";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -11,7 +12,7 @@ export default defineConfig({
       "https://*.linkedin.com/*",
       "https://linkedin.com/*",
       "https://ind.nl",
-      "https://raw.githubusercontent.com/amirrezaDev1378/idn-extention/*",
+      "https://raw.githubusercontent.com/amirrezaDev1378/ind-extention/*",
     ],
 
     content_security_policy: {

@@ -27,7 +27,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add idnList.json
+          git add indList.json
           git diff --cached --quiet || git commit -m "chore: update idnList.json"
           git push
         env:

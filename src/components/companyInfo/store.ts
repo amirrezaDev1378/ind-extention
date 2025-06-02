@@ -5,7 +5,6 @@ export interface StoreState {
   isOpen: boolean;
   companyInfo?: {
     fullName: string;
-    predictedName?: string;
     kvnID: string;
   };
 }
