@@ -70,9 +70,9 @@ const transformCompanyName = (name: string): string =>
   name.trim().toLowerCase().replaceAll(" ", "").replaceAll(/\d/g, "");
 
 async function injectBadges(root: Document | Element = document) {
-  const idnList = await fetchIndList();
-  const idnMap = new Map(
-    (idnList as { name: string; id: string }[]).map((item) => [
+  const indList = await fetchIndList();
+  const indMap = new Map(
+    (indList as { name: string; id: string }[]).map((item) => [
       transformCompanyName(item.name),
       { id: item.id, name: item.name },
     ]),
@@ -84,13 +84,13 @@ async function injectBadges(root: Document | Element = document) {
   for (const item of companyElements) {
     if (injectedElements.has(item)) continue; // Skip if already injected
     const companyName = transformCompanyName(item.textContent || "");
-    if (companyName && idnMap.has(companyName)) {
+    if (companyName && indMap.has(companyName)) {
       // Prevent duplicate badge
       if (
         item.parentElement &&
         !item.parentElement.querySelector(".sponsorship-badge")
       ) {
-        const { id, name } = idnMap.get(companyName)!;
+        const { id, name } = indMap.get(companyName)!;
         const target = document.createElement("div");
         item.parentElement?.appendChild(target);
         mountSvelte(Index, target, {
