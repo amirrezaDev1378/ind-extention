@@ -51,12 +51,12 @@ export default defineContentScript({
   },
 });
 
-function initExtension() {
-  const isEnabled = localStorage.getItem("local:extensionEnabled");
+async function initExtension() {
+  const isEnabled = await storage.getItem("local:extensionEnabled");
   if (isEnabled === "false") return;
 
   // default to true
-  localStorage.setItem("local:extensionEnabled", "true");
+  await storage.setItem("local:extensionEnabled", "true");
 
   const currentUrl = window.location.href;
   if (currentUrl.includes("/jobs/") || currentUrl.includes("/company/")) {
