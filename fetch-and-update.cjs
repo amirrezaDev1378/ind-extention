@@ -16,13 +16,15 @@ const fetchAndUpdateData = async () => {
   const rows = $("div.responsive-table-inner > table > tbody > tr");
   const data = [];
   rows.each((index, element) => {
-    const name = $(element).find("th");
-    const id = $(element).find("td");
+    const name = $(element).find("td:nth-child(1)");
+    const id = $(element).find("td:nth-child(2)");
+
     const rowData = {
       name: name
         .text()
         .trim()
-        ?.replace(/ B\.V\..*/gi, ""),
+        ?.replaceAll(/ B\.V\..*/gi, "")
+        ?.replaceAll(/ N\.V\..*/gi, ""),
       id: id.text().trim(),
     };
     data.push(rowData);
