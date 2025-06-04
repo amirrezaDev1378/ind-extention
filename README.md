@@ -1,6 +1,6 @@
 # Netherlands Visa Sponsorship Checker — IND List Extension
 
-A browser extension that helps job seekers and recruiters on LinkedIn quickly identify companies recognized by the Dutch Immigration and Naturalisation Service (IND) as visa sponsors for regular labor and highly skilled migrants.
+A browser extension that helps jobseekers and recruiters on LinkedIn quickly identify companies recognized by the Dutch Immigration and Naturalisation Service (IND) as visa sponsors for regular labor and highly skilled migrants.
 
 ---
 
@@ -30,20 +30,20 @@ A browser extension that helps job seekers and recruiters on LinkedIn quickly id
 ### How to load the extension manually
 
 #### Firefox
-1. Build the extension using the provided build scripts (`bunx wxt zip -b firefox`).
+1. Download the extention from releases page or build it using the provided build scripts (`bunx wxt zip -b firefox`).
 2. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on**.
 4. Select the built `.zip` file or the extracted folder containing the extension manifest.
 
 #### Chrome
-1. Build the extension using the provided build scripts (`bunx wxt zip`).
+1. Download the extention from releases page or build it using the provided build scripts (`bunx wxt zip`).
 2. Open Chrome and go to `chrome://extensions/`.
 3. Enable **Developer mode** (toggle top-right).
 4. Click **Load unpacked**.
 5. Select the folder where the extension was built/extracted.
 
 #### Microsoft Edge
-1. Build the extension using the provided build scripts (`bunx wxt zip`).
+1. Download the extension from releases page or build it using the provided build scripts (`bunx wxt zip`).
 2. Open Edge and go to `edge://extensions/`.
 3. Enable **Developer mode**.
 4. Click **Load unpacked**.
