@@ -19,7 +19,10 @@ const fetchAndUpdateData = async () => {
     const name = $(element).find("th");
     const id = $(element).find("td");
     const rowData = {
-      name: name.text().trim()?.replace(" B.V.", ""),
+      name: name
+        .text()
+        .trim()
+        ?.replace(/ B\.V\..*/gi, ""),
       id: id.text().trim(),
     };
     data.push(rowData);
