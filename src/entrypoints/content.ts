@@ -86,12 +86,20 @@ async function injectBadges(root: Document | Element = document) {
     const companyName = transformCompanyName(item.textContent || "");
     if (companyName && indMap.has(companyName)) {
       // Prevent duplicate badge
-      if (
-        item.parentElement &&
-        !item.parentElement.querySelector(".sponsorship-badge")
-      ) {
+      if (item.parentElement) {
+        const currentBadge = item.parentElement.querySelector(
+          ".sponsorship-badge",
+        ) as HTMLDivElement | null;
+        if (
+          currentBadge &&
+          currentBadge.dataset.kvnid !== indMap.get(companyName)!.id
+        ) {
+          item.parentElement.querySelector(".sponsorship-badge")?.remove();
+        }
         const { id, name } = indMap.get(companyName)!;
         const target = document.createElement("div");
+        target.className = "sponsorship-badge";
+        target.dataset.kvnid = id;
         item.parentElement?.appendChild(target);
         mountSvelte(Index, target, {
           label: `has sponsorship (ID: ${id})`,

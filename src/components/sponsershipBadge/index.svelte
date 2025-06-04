@@ -18,6 +18,6 @@
 </script>
 
 
-<button class="sponsorship-badge text-neutral-900 bg-green-300 p-3 rounded-lg relative z-[999999] cursor-pointer" on:click={openDialog}>
+<button class=" text-neutral-900 bg-green-300 p-3 rounded-lg relative z-[999999] cursor-pointer" on:click={openDialog}>
     {label}
 </button>
