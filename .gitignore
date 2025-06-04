@@ -24,4 +24,4 @@ web-ext.config.ts
 *.njsproj
 *.sln
 *.sw?
-bun.lock
+./bun.lock
