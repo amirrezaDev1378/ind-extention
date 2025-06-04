@@ -1,0 +1,54 @@
+name: Build And Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build and zip extensions
+        run: |
+          bunx wxt zip
+          bunx wxt zip -b firefox
+#          TODO: add when extension published on store
+#      - name: Submit to Firefox Add-ons Store
+#        run: |
+#          bunx wxt submit \
+#            --firefox-zip .output/*-firefox.zip \
+#            --firefox-sources-zip .output/*-sources.zip
+#        env:
+#          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+#          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+#          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+      - name: Rename zip files
+        run: |
+          mv .output/*-chrome.zip .output/chrome.zip
+          mv .output/*-firefox.zip .output/firefox.zip
+          mv .output/*-sources.zip .output/sources.zip
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            .output/chrome.zip
+            .output/firefox.zip
+            .output/sources.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
