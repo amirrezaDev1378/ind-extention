@@ -6,7 +6,12 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   srcDir: "src",
   modules: ["@wxt-dev/module-svelte", "@wxt-dev/auto-icons"],
+
   manifest: {
+    description:
+      " A browser extension that helps jobseekers and recruiters on LinkedIn quickly identify companies recognized by the Dutch Immigration and Naturalisation Service (IND) as visa sponsors for regular labor and highly skilled migrants. ",
+    name: "IND Extension",
+
     permissions: ["activeTab", "scripting", "storage"],
     host_permissions: [
       "https://*.linkedin.com/*",
