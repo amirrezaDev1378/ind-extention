@@ -5,13 +5,12 @@ import tailwindcss from "@tailwindcss/vite";
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   srcDir: "src",
-  modules: ["@wxt-dev/module-svelte"],
+  modules: ["@wxt-dev/module-svelte", "@wxt-dev/auto-icons"],
   manifest: {
     permissions: ["activeTab", "scripting", "storage"],
     host_permissions: [
       "https://*.linkedin.com/*",
       "https://linkedin.com/*",
-      "https://ind.nl",
       "https://raw.githubusercontent.com/amirrezaDev1378/ind-extention/*",
     ],
 
