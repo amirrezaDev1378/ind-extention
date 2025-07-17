@@ -38,13 +38,20 @@ export const mountSvelte = async (
 };
 
 export default defineContentScript({
-  matches: ["https://*.linkedin.com/*"],
+  matches: [
+    "https://*.linkedin.com/*",
+    "https://*.indeed.com/*",
+    "https://nl.indeed.com/*",
+    "https://uk.indeed.com/*",
+  ],
   cssInjectionMode: "ui",
   main(ctx) {
     mainCtx = ctx;
+    console.log("sssssssssss");
     // Wait for DOM to be ready
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initExtension);
+      // document.addEventListener("DOMContentLoaded", initExtension);
+      document.addEventListener("load", initExtension);
     } else {
       initExtension();
     }
@@ -54,20 +61,33 @@ export default defineContentScript({
 async function initExtension() {
   const isEnabled = await storage.getItem("local:extensionEnabled");
   if (isEnabled === "false") return;
-
+  await new Promise((r) => setTimeout(r, 2000));
   // default to true
   await storage.setItem("local:extensionEnabled", "true");
-
+  console.log("a");
   const currentUrl = window.location.href;
-  if (currentUrl.includes("/jobs/") || currentUrl.includes("/company/")) {
+  if (currentUrl.includes("/jobs") || currentUrl.includes("/company/")) {
     mountSvelte(CompanyInfoDialog, document.body, {});
     injectBadges();
     setupMutationObserver();
+    console.log("b");
   }
 }
 
 const transformCompanyName = (name: string): string =>
-  name.trim().toLowerCase().replaceAll(" ", "").replaceAll(/\d/g, "");
+  name
+    .trim()
+    .toLowerCase()
+    .replaceAll(" ", "")
+    .replaceAll(/\d/g, "")
+    .replaceAll(/LTD/gi, "")
+    .replaceAll('"', "")
+    .replaceAll(/\.\?£@`/gi, "")
+    .replaceAll(/[\[\(].*[\]\)](?=\s+\w)/gi, "")
+    .replaceAll(/LTD/gi, "")
+    .replaceAll(/ B\.V\..*/gi, "")
+    .replaceAll(/ N\.V\..*/gi, "")
+    .trim();
 
 async function injectBadges(root: Document | Element = document) {
   const indList = await fetchIndList();
@@ -129,6 +149,8 @@ function setupMutationObserver() {
             ".top-card-layout__entity-info-container  span.topcard__flavor > a",
             ".top-card-layout__card   h1.top-card-layout__title",
             ".org-top-card__primary-content    h1.org-top-card-summary__title",
+            "span[data-testid=company-name]",
+            "div[data-testid=inlineHeader-companyName] a",
           ];
           if (
             selectors.some((sel) => el.matches(sel)) ||

@@ -17,6 +17,8 @@ export default defineConfig({
       "https://*.linkedin.com/*",
       "https://linkedin.com/*",
       "https://raw.githubusercontent.com/amirrezaDev1378/ind-extention/*",
+      "https://nl.indeed.com/*",
+      "https://*indeed.com/*",
     ],
 
     content_security_policy: {
