@@ -85,8 +85,8 @@ const transformCompanyName = (name: string): string =>
     .replaceAll(/\.\?£@`/gi, "")
     .replaceAll(/[\[\(].*[\]\)](?=\s+\w)/gi, "")
     .replaceAll(/LTD/gi, "")
-    .replaceAll(/ B\.V\..*/gi, "")
-    .replaceAll(/ N\.V\..*/gi, "")
+    .replaceAll(/B\.V\..*/gi, "")
+    .replaceAll(/N\.V\..*/gi, "")
     .trim();
 
 async function injectBadges(root: Document | Element = document) {
@@ -104,6 +104,10 @@ async function injectBadges(root: Document | Element = document) {
   for (const item of companyElements) {
     if (injectedElements.has(item)) continue; // Skip if already injected
     const companyName = transformCompanyName(item.textContent || "");
+
+    if (item.textContent?.includes("SnelS")) {
+      debugger;
+    }
     if (companyName && indMap.has(companyName)) {
       // Prevent duplicate badge
       if (item.parentElement) {
