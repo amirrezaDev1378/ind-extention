@@ -2,7 +2,7 @@
   "name" : "ind-extension",
   "description" : " A browser extension that helps jobseekers and recruiters on LinkedIn quickly identify companies recognized by the Dutch Immigration and Naturalisation Service (IND) as visa sponsors for regular labor and highly skilled migrants. ",
   "private" : true,
-  "version" : "0.1.1",
+  "version" : "0.1.4",
   "type" : "module",
   "scripts" : {
     "dev" : "wxt",
