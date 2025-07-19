@@ -56,7 +56,7 @@ const fetchAndUpdateData = async () => {
         .replaceAll(/LTD/gi, ""),
       id: `${i} -- UK`,
     }));
-  data.push(...UKData);
+  UKData.forEach((item) => data.push(item));
   console.log("UK DATA Loaded");
 
   fs.writeFileSync("./indList.json", JSON.stringify(data, null, 2));
