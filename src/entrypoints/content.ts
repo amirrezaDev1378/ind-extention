@@ -5,6 +5,7 @@ import CompanyInfoDialog from "@/components/companyInfo/CompanyInfoDialog.svelte
 import { ContentScriptContext } from "wxt/utils/content-script-context";
 import "../app.css";
 import getCompanyProfilesList from "@/lib/getCompanyProfilesList";
+import { startHighlights } from "@/lib/highlightWords";
 // Add this at the top-level scope
 let mainCtx: ContentScriptContext | null = null;
 const injectedElements = new WeakSet<Element>(); // Track injected elements
@@ -69,6 +70,7 @@ async function initExtension() {
   if (currentUrl.includes("/jobs") || currentUrl.includes("/company/")) {
     mountSvelte(CompanyInfoDialog, document.body, {});
     injectBadges();
+    startHighlights();
     setupMutationObserver();
     console.log("b");
   }
@@ -110,15 +112,16 @@ async function injectBadges(root: Document | Element = document) {
     }
     if (companyName && indMap.has(companyName)) {
       // Prevent duplicate badge
-      if (item.parentElement) {
-        const currentBadge = item.parentElement.querySelector(
+      const selector = item.parentElement?.parentElement || item.parentElement;
+      if (selector) {
+        const currentBadge = selector.querySelector(
           ".sponsorship-badge",
         ) as HTMLDivElement | null;
         if (
           currentBadge &&
           currentBadge.dataset.kvnid !== indMap.get(companyName)!.id
         ) {
-          item.parentElement.querySelector(".sponsorship-badge")?.remove();
+          selector.querySelector(".sponsorship-badge")?.remove();
         }
         const { id, name } = indMap.get(companyName)!;
         const target = document.createElement("div");
