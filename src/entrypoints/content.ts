@@ -5,7 +5,7 @@ import CompanyInfoDialog from "@/components/companyInfo/CompanyInfoDialog.svelte
 import { ContentScriptContext } from "wxt/utils/content-script-context";
 import "../app.css";
 import getCompanyProfilesList from "@/lib/getCompanyProfilesList";
-import { startHighlights } from "@/lib/highlightWords";
+import { addHighlightStyles, startHighlights } from "@/lib/highlightWords";
 // Add this at the top-level scope
 let mainCtx: ContentScriptContext | null = null;
 const injectedElements = new WeakSet<Element>(); // Track injected elements
@@ -69,6 +69,7 @@ async function initExtension() {
   const currentUrl = window.location.href;
   if (currentUrl.includes("/jobs") || currentUrl.includes("/company/")) {
     mountSvelte(CompanyInfoDialog, document.body, {});
+    addHighlightStyles();
     injectBadges();
     startHighlights();
     setupMutationObserver();
