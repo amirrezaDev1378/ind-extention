@@ -3,38 +3,42 @@ function highlightKeywordsIntoGlobal(
   keywords: string[],
   globalHighlight: Highlight,
 ) {
-  // Check browser support
   if (!CSS.highlights) {
     console.error("CSS Custom Highlight API is not supported in this browser");
     return;
   }
 
-  const regex = new RegExp(`\\b(${keywords.join("|")})\\b`, "gi");
+  const keywordSet = new Set(keywords.map((k) => k.toLowerCase()));
 
-  const walk = (node: Node) => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const text = node.textContent || "";
-      let match;
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (
+        node.parentElement &&
+        !["SCRIPT", "STYLE", "MARK", "CODE", "LINK"].includes(
+          node.parentElement.tagName,
+        )
+      ) {
+        return NodeFilter.FILTER_ACCEPT;
+      }
+      return NodeFilter.FILTER_REJECT;
+    },
+  });
 
-      // Reset regex lastIndex to ensure we find all matches
-      regex.lastIndex = 0;
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    const text = node.textContent || "";
 
-      while ((match = regex.exec(text)) !== null) {
+    let startIndex = 0;
+    for (const word of text.split(/\b/)) {
+      if (keywordSet.has(word.toLowerCase())) {
         const range = new Range();
-        range.setStart(node, match.index);
-        range.setEnd(node, match.index + match[0].length);
-
+        range.setStart(node, startIndex);
+        range.setEnd(node, startIndex + word.length);
         globalHighlight.add(range);
       }
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      const el = node as HTMLElement;
-      if (!["SCRIPT", "STYLE", "MARK", "CODE", "LINK"].includes(el.tagName)) {
-        Array.from(el.childNodes).forEach(walk);
-      }
+      startIndex += word.length;
     }
-  };
-
-  walk(container);
+  }
 }
 
 // Add this CSS to your stylesheet or call this function once during app initialization
@@ -92,9 +96,7 @@ export const startHighlights = async () => {
     CSS.highlights.delete("keyword-highlight");
     const globalHighlight = new Highlight();
 
-    for (const child of document.querySelectorAll(
-      "p,span,strong,title,div,h1,h2,h3,h4,h5,h6,b",
-    )) {
+    for (const child of document.body.children) {
       highlightKeywordsIntoGlobal(child, highlightWords, globalHighlight);
     }
 
