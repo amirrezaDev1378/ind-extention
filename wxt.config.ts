@@ -12,7 +12,7 @@ export default defineConfig({
       " A browser extension that helps jobseekers and recruiters on LinkedIn quickly identify companies recognized by the Dutch Immigration and Naturalisation Service (IND) as visa sponsors for regular labor and highly skilled migrants. ",
     name: "IND Extension",
 
-    permissions: ["activeTab", "scripting", "storage"],
+    permissions: ["activeTab", "scripting", "storage", "unlimitedStorage"],
     host_permissions: [
       "https://*.linkedin.com/*",
       "https://linkedin.com/*",
